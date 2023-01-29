@@ -20,7 +20,7 @@ final class RMService {
     ///Send rick and Morty API call
     /// - request: Request instence
     /// - completion: Callback with data or error
-    private func exacute(_ request: RMRequest,completion: @escaping () -> Void ) {
+    private func exacute(_ request: RMRequest,completion: @escaping (Result<String, Error >) -> Void ) {
         
     }
 }
