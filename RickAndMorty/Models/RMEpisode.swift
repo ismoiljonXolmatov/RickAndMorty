@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+struct RMEpisode: Codable {
+    let id: Int
+    let name: String
+    let air_date: Date
+    let episode: String
+    let url: String
+    let created: String
+    let characters: [String]
+    
+}
+
