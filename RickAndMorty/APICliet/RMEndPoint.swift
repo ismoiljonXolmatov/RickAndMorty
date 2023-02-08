@@ -19,7 +19,5 @@ import Foundation
     ///Endpoint to get character info
     case character
     
-    
-    
 
 }

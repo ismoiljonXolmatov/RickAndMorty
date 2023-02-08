@@ -19,11 +19,12 @@ class RMFootLoadCollectionReusableView:  UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
            addSubview(spinner)
-        backgroundColor = .systemBackground
-        startAnimating()
+          backgroundColor = .systemBackground 
+//        startAnimating()
         addConstraints()
-  
+ 
         
     }
     required init?(coder: NSCoder) {
@@ -38,7 +39,7 @@ class RMFootLoadCollectionReusableView:  UICollectionReusableView {
     }
     
     public func startAnimating() {
-        spinner.startAnimating()
+         spinner.startAnimating()
         
     }
     

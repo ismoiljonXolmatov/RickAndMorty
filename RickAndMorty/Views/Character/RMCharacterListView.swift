@@ -7,11 +7,15 @@
 
 import UIKit
 
-protocol UICharacterListViewDelegate: AnyObject {
-    func rmCharacterListView
+protocol RMCharacterListViewDelegate: AnyObject {
+    
+    func rmCharacterListView(
+        _ characterListView: RMCharacterListView, didSelectCharacter character: RMCharacter)
 }
 /// View that handles showing list  of characters, loader, ect
-class RMCharacterListView: UIView {
+ final class RMCharacterListView: UIView{
+    
+    public weak var delegate: RMCharacterListViewDelegate?
     
    private let viewModel = UICharacterListViewViewModel()
     
@@ -26,13 +30,17 @@ class RMCharacterListView: UIView {
         layout.scrollDirection = .vertical
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 1, right: 10)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(RMCharacterCollectionViewCell.self, forCellWithReuseIdentifier:  RMCharacterCollectionViewCell.identifier)
-        collectionView.isHidden = true
+        collectionView.register(RMCharacterCollectionViewCell.self,
+                                forCellWithReuseIdentifier:  RMCharacterCollectionViewCell.identifier)
+        collectionView.register(RMFootLoadCollectionReusableView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                withReuseIdentifier: RMFootLoadCollectionReusableView.indentifier)
+               collectionView.isHidden = true
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.alpha = 0
         return collectionView
     }()
-    
+     
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
@@ -46,14 +54,11 @@ class RMCharacterListView: UIView {
         addSubview(collectionView)
         collectionView.dataSource = viewModel
         collectionView.delegate = viewModel
-         
         collectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
     }
-    
-    
     private func configureSpinner() {
         addSubview(spinner)
         spinner.startAnimating()
@@ -65,6 +70,12 @@ class RMCharacterListView: UIView {
     }
 }
 extension RMCharacterListView: UICharacterListViewViewModelDelegate {
+    
+    
+    func didCharacterSelect(_ character: RMCharacter) {
+        delegate?.rmCharacterListView(self, didSelectCharacter: character)
+    }
+    
     func didLoadInitialCharacters() {
         spinner.stopAnimating()
         self.collectionView.isHidden = false
@@ -74,6 +85,11 @@ extension RMCharacterListView: UICharacterListViewViewModelDelegate {
             
         }
 
+    }
+    func didLoadMoreCharacter(with newIndexPaths: [IndexPath]) {
+        collectionView.performBatchUpdates {
+            self.collectionView.insertItems(at: newIndexPaths)
+        }
         
     }
     

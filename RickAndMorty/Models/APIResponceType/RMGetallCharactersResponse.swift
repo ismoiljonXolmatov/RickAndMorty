@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+struct RMGetAllCharactersResponse: Codable {
+    struct Info: Codable {
+      var count: Int
+      var pages: Int
+      var next: String?
+      var prev: String?
+    }
+    var info: Info
+    let results: [RMCharacter]
+}
