@@ -9,9 +9,10 @@ import UIKit
 
 protocol RMCharacterListViewDelegate: AnyObject {
     
-    func rmCharacterListView(
-        _ characterListView: RMCharacterListView, didSelectCharacter character: RMCharacter)
+    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelectCharacter character: RMCharacter)
+    
 }
+
 /// View that handles showing list  of characters, loader, ect
  final class RMCharacterListView: UIView{
     
@@ -25,6 +26,7 @@ protocol RMCharacterListViewDelegate: AnyObject {
         spinner.translatesAutoresizingMaskIntoConstraints = false
         return spinner
     }()
+     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -49,7 +51,7 @@ protocol RMCharacterListViewDelegate: AnyObject {
         configureSpinner()
         configureCollectionView()
     }
-    
+
     private func configureCollectionView() {
         addSubview(collectionView)
         collectionView.dataSource = viewModel
@@ -82,9 +84,7 @@ extension RMCharacterListView: UICharacterListViewViewModelDelegate {
         collectionView.reloadData() // initial Fetch 
         UIView.animate(withDuration: 0.4) {
             self.collectionView.alpha = 1
-            
         }
-
     }
     func didLoadMoreCharacter(with newIndexPaths: [IndexPath]) {
         collectionView.performBatchUpdates {

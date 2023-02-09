@@ -60,7 +60,6 @@ final class RMCharacterDetailView: UIView {
     }
     
     
-    
     private func createCollactionView() -> UICollectionView {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
             return self.createSection(for: sectionIndex)

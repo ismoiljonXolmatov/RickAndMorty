@@ -90,7 +90,6 @@ extension RMCharacterDetailViewController: UICollectionViewDataSource, UICollect
                 fatalError("Unsupported")
             }
             cell.configure(with: viewModels[indexPath.row])
-            cell.backgroundColor = .label
             return cell
         case .episode(let viewModels):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterEpisodeCollectionViewCell.indentifier, for: indexPath) as? RMCharacterEpisodeCollectionViewCell else {

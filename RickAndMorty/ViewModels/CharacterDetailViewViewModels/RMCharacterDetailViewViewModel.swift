@@ -25,23 +25,23 @@ final class RMCharacterDetailViewViewModel {
         setUPSections()
     }
     private func setUPSections() {
-        sections = [
-            .photo(viewModel: .init()),
+          sections = [
+            .photo(viewModel: .init(imageUrl: URL(string: character.image))),
             .information(viewModels: [
-                .init(),
-                .init(),
-                .init(),
-                .init()
+                .init(value: character.status.text, title: "Status"),
+                .init(value: character.gender.rawValue, title: "Gender"),
+                .init(value: character.type, title: "Type"),
+                .init(value: character.species, title: "Species"),
+                .init(value: character.origion?.name ?? "", title: "Origin"),
+                .init(value: character.location.name, title: "Locatin"),
+                .init(value: character.created, title: "Created"),
+                .init(value: "\(character.episode.count)", title: "Total Episode"),
             ]),
-            .episode(viewModels: [
-                .init(),
-                .init(),
-                .init(),
-                .init()
-            ])
+            .episode(viewModels: character.episode.compactMap({
+                return RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: $0))
+            }))
         ]
-        
-        
+ 
     }
     
     public var requestUrl: URL? {
@@ -100,8 +100,8 @@ final class RMCharacterDetailViewViewModel {
         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 10, trailing: 5)
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(300)
+            widthDimension: .fractionalWidth(0.7),
+            heightDimension: .absolute(170)
         ),
         subitems: [item]
         )
