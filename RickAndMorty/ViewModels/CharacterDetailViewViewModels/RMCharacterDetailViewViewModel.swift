@@ -28,14 +28,14 @@ final class RMCharacterDetailViewViewModel {
           sections = [
             .photo(viewModel: .init(imageUrl: URL(string: character.image))),
             .information(viewModels: [
-                .init(value: character.status.text, title: "Status"),
-                .init(value: character.gender.rawValue, title: "Gender"),
-                .init(value: character.type, title: "Type"),
-                .init(value: character.species, title: "Species"),
-                .init(value: character.origion?.name ?? "", title: "Origin"),
-                .init(value: character.location.name, title: "Locatin"),
-                .init(value: character.created, title: "Created"),
-                .init(value: "\(character.episode.count)", title: "Total Episode"),
+                .init(type: . status,value: character.status.text),
+                .init(type: .gender ,value: character.gender.rawValue),
+                .init(type: .type ,value: character.type ?? "Not found"),
+                .init(type: .species ,value: character.species),
+                .init(type: .origin ,value: character.origion?.name ?? "Not found"),
+                .init(type: .location ,value: character.location.name),
+                .init(type: .created ,value: character.created),
+                .init(type: .episodeCount ,value: "\(character.episode.count)"),
             ]),
             .episode(viewModels: character.episode.compactMap({
                 return RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: $0))
@@ -82,7 +82,7 @@ final class RMCharacterDetailViewViewModel {
         
     let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
         widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(150)
+            heightDimension: .absolute(120)
         ),
         subitems: [item, item]
         )
@@ -97,7 +97,7 @@ final class RMCharacterDetailViewViewModel {
         heightDimension: .fractionalHeight(1.0)
        )
     )
-        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 10, trailing: 5)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5)
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.7),

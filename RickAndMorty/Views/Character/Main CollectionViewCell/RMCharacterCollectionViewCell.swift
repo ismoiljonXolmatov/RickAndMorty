@@ -59,10 +59,12 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
         ImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
         ImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ImageView.heightAnchor.constraint(equalToConstant: contentView.bounds.height/1.3),
+        
         nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
         nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
         nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -5),
         nameLabel.heightAnchor.constraint(equalToConstant: 27),
+        
         statusLabel.heightAnchor.constraint(equalToConstant: 27),
         statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
         statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
