@@ -92,7 +92,7 @@ extension RMCharacterDetailViewController: UICollectionViewDataSource, UICollect
             cell.configure(with: viewModels[indexPath.row])
             return cell
         case .episode(let viewModels):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterEpisodeCollectionViewCell.indentifier, for: indexPath) as? RMCharacterEpisodeCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterEpisodeCollectionViewCell.identifier, for: indexPath) as? RMCharacterEpisodeCollectionViewCell else {
                 fatalError("Unsupported")
             }
             let viewmodel = viewModels[indexPath.row]
@@ -102,5 +102,18 @@ extension RMCharacterDetailViewController: UICollectionViewDataSource, UICollect
         }
             
    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let sectionType = viewModel.sections[indexPath.section]
+        switch sectionType {
+        case .photo, .information:
+            break
+        case .episode:
+            let episodes = self.viewModel.episodes
+            let selection = episodes[indexPath.row]
+            let vc = EpisodeDetailViewController(url: URL(string: selection))
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
     
 }

@@ -9,6 +9,10 @@ import UIKit
 
 final class RMCharacterDetailViewViewModel {
     
+    public var episodes: [String] {
+        character.episode
+    }
+    
     private let character: RMCharacter
     
     enum SectionType {

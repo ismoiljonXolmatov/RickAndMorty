@@ -14,6 +14,8 @@ final class RMService {
     ///Shared singletion instence
     static let shared = RMService()
     
+    private let cacheManager = RMAPICacheManager()
+    
     ///Privetized Constructer
     private init() {}
     
@@ -29,18 +31,28 @@ final class RMService {
     public func exacute<T: Codable>(_ request: RMRequest,
                                     expecting type: T.Type,
                                     completion: @escaping (Result<T, Error >) -> Void ) {
+        if let cachedData = cacheManager.cachedResponse(with: request.endpoint, url: request.url) {
+            print( "Using cached API response ") 
+            do {
+                let result = try JSONDecoder().decode(type.self, from: cachedData )
+                completion(.success(result))
+                  } catch {
+                completion(.failure(error))
+            }
+        }
         
         guard let URLRequest = self.request(from: request) else {
             completion(.failure(RMSersiveError.failedToCreateRequest))
             return
         }
-        let task = URLSession.shared.dataTask(with: URLRequest) { data, _, error in
+        let task = URLSession.shared.dataTask(with: URLRequest) { [weak self] data, _, error in
             guard let data = data, error == nil else {
                 completion(.failure(error ??  RMSersiveError.failedToGetData))
                 return
             }
             do {
                 let result = try JSONDecoder().decode(type.self, from: data)
+                self?.cacheManager.setCache(with: request.endpoint, url: request.url, data: data )
                 completion(.success(result))
             } catch {
                 completion(.failure(error))

@@ -9,24 +9,30 @@ import UIKit
 
 final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     
-    static let indentifier: String = "RMCharacterEpisodeCollectionViewCell"
+    static let identifier: String = "RMCharacterEpisodeCollectionViewCell"
     
     private let SeasonLb: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.textColor = .secondaryLabel
         return label
     }()
     private let nameLb: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
         label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.textColor = .secondaryLabel
+
         return label
     }()
     private let airDateLb: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 18, weight: .light)
+        label.textColor = .secondaryLabel
+
         return label
     }()
 
@@ -42,13 +48,28 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     }
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
+            SeasonLb.topAnchor.constraint(equalTo: contentView.topAnchor),
+            SeasonLb.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            SeasonLb.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            SeasonLb.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.33),
+            
+            nameLb.topAnchor.constraint(equalTo: SeasonLb.bottomAnchor),
+            nameLb.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            nameLb.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            nameLb.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.33),
+            
+            airDateLb.topAnchor.constraint(equalTo: nameLb.bottomAnchor),
+            airDateLb.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            airDateLb.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 5),
+            airDateLb.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.33),
+
+            
         ])
     }
 
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.backgroundColor = .systemBackground
         contentView.layer.borderWidth = 2
         contentView.layer.borderColor = UIColor.gray.cgColor
