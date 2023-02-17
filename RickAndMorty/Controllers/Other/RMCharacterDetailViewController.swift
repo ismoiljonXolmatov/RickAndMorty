@@ -28,8 +28,8 @@ class RMCharacterDetailViewController: UIViewController {
     //MARK: - Lifecyce
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
         title = viewModel.title
+        view.backgroundColor = .systemBackground
         view.addSubview(detailView)
         addConstraints()
         detailView.collectionView?.dataSource = self
@@ -113,6 +113,7 @@ extension RMCharacterDetailViewController: UICollectionViewDataSource, UICollect
             let selection = episodes[indexPath.row]
             let vc = EpisodeDetailViewController(url: URL(string: selection))
             navigationController?.pushViewController(vc, animated: true)
+            navigationController?.navigationBar.topItem?.backButtonTitle = ""
         }
     }
     

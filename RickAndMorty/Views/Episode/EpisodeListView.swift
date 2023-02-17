@@ -28,7 +28,7 @@ protocol RMEpisodeListViewDelegate: AnyObject {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 1, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(RMCharacterEpisodeCollectionViewCell.self,
                                 forCellWithReuseIdentifier:  RMCharacterEpisodeCollectionViewCell.identifier)
@@ -87,12 +87,9 @@ extension RMEpisodeListView: RMEpisodeListViewViewModelDelegate {
 
     }
     
-    
     func didEpisodeSelect(_ episode: RMEpisode) {
-//        delegate?.rmEpisodeListView(RMEpisodeListView, didSelectEpisode: episode)
+      delegate?.rmEpisodeListView(self, didSelectEpisode: episode)
     }
-    
-     
-       
+          
 }
     

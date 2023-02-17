@@ -11,10 +11,17 @@ final class RMTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.label], for:.selected)
+        view.backgroundColor = .systemBackground
+        
         setTabs()
     }
     private func setTabs() {
+        
+        self.tabBar.tintColor = UIColor.label
+        self.tabBar.barTintColor = UIColor.label
+        self.tabBar.isTranslucent = false
+
         let charactersVC = RMCharacterViewController()
         let locationVC = RMLocationViewController()
         let episodesVC = RMEpisodeViewController()
@@ -25,6 +32,9 @@ final class RMTabBarController: UITabBarController {
         episodesVC.navigationItem.largeTitleDisplayMode = .automatic
         settingsVC.navigationItem.largeTitleDisplayMode = .automatic
 
+
+
+        
         let nav1 = UINavigationController(rootViewController: charactersVC)
         let nav2 = UINavigationController(rootViewController: locationVC)
         let nav3 = UINavigationController(rootViewController: episodesVC)
@@ -34,6 +44,7 @@ final class RMTabBarController: UITabBarController {
         nav2.tabBarItem = UITabBarItem(title: "Locations", image: UIImage(systemName: "globe"), tag: 2)
         nav3.tabBarItem = UITabBarItem(title: "Episodes", image: UIImage(systemName: "tv"), tag: 3)
         nav4.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gear"), tag: 4)
+        
 
         setViewControllers([nav1, nav2, nav3, nav4], animated: true)
         

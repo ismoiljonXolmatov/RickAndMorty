@@ -5,7 +5,7 @@
 //  Created by Apple on 18.07.1444 (AH).
 //
 
-import Foundation
+import UIKit
 
 protocol RMEpisodeDataRender {
     var name: String {
@@ -23,8 +23,7 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
      
     private let episodeDataUrl: URL?
     private var dateBlock: ((RMEpisodeDataRender ) -> Void)?
-     
-    private var episode: RMEpisode?  {
+            private var episode: RMEpisode?  {
         didSet{
             guard let model = episode else {
                 return
@@ -32,13 +31,17 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
              dateBlock?(model)  
         }
     }
+    public let borderColor: UIColor
+        
+    
     
     private var isFatching: Bool = false
     
     //MARK: - Init
     
-    init(episodeDataUrl: URL?) {
+    init(episodeDataUrl: URL?, bordercolor: UIColor = .secondaryLabel) {
         self.episodeDataUrl = episodeDataUrl
+        self.borderColor = bordercolor
     }
     //MARK: - Public
     
@@ -46,16 +49,17 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
         self.dateBlock = block
         
     }
-
-    
     
     public func fetchEpisode() {
+        
         guard !isFatching else {
-            if let model = episode  {
+            
+            if let model = episode {
                 dateBlock?(model)
             }
             return
         }
+        
         guard let url = episodeDataUrl, let request = RMRequest(url: url) else {
             return
         }
@@ -72,8 +76,8 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
                 print(String(describing: failure))
             }
         }
-         
     }
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.episodeDataUrl?.absoluteString ?? "")
     }
@@ -83,5 +87,4 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
           
     }
 
-    
 }

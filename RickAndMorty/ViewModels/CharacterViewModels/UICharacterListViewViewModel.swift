@@ -173,7 +173,7 @@ extension UICharacterListViewViewModel: UIScrollViewDelegate {
               let url = URL(string: nextURLString) else {
             return
         }
-        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [weak self] t in
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] t in
             let offSet = scrollView.contentOffset.y
             let totalContentHeight = scrollView.contentSize.height
             let totalScrollViewFixedHeigt = scrollView.frame.size.height

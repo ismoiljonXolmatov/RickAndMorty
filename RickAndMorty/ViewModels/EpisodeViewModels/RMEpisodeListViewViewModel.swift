@@ -21,10 +21,21 @@ final class RMEpisodeListViewViewModel: NSObject {
             
     private var  isLoadingMoreCharacter = false
     
+    private let borderColors: [UIColor] = [
+        .systemIndigo,
+        .systemIndigo,
+        .systemIndigo,
+        .systemIndigo,
+        .systemIndigo,
+        .systemIndigo,
+        .systemIndigo,
+        .systemIndigo
+    ]
+    
     private var episodes: [RMEpisode] = [] {
         didSet {
             for episode in episodes  {
-                let viewModel = RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: episode.url))
+                let viewModel = RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: episode.url), bordercolor: borderColors.randomElement() ?? .systemIndigo)
                 if !cellViewModels.contains(viewModel) {
                     cellViewModels.append(viewModel)
                 }
@@ -149,8 +160,8 @@ extension RMEpisodeListViewViewModel: UICollectionViewDataSource, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let bounds = UIScreen.main.bounds
-        let width = (bounds.width - 30)/2
-        return CGSize(width: width, height: width*0.8)
+        let width = (bounds.width - 20)
+        return CGSize(width: width, height: 120 )
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -168,7 +179,7 @@ extension RMEpisodeListViewViewModel: UIScrollViewDelegate {
               let url = URL(string: nextURLString) else {
             return
         }
-        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [weak self] t in
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] t in
             let offSet = scrollView.contentOffset.y
             let totalContentHeight = scrollView.contentSize.height
             let totalScrollViewFixedHeigt = scrollView.frame.size.height

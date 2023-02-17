@@ -36,16 +36,7 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    public func configure(with viewModel: RMCharacterEpisodeCollectionViewCellViewModel) {
-        viewModel.registerForData { [weak self] date in
-            self?.nameLb.text = date.name
-            self?.SeasonLb.text = "Episode "+date.episode
-            self?.airDateLb.text = "Aired on "+date.air_date
-
-            
-           }
-        viewModel.fetchEpisode() 
-    }
+ 
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
             SeasonLb.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -70,24 +61,27 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .systemBackground
-        contentView.layer.borderWidth = 2
-        contentView.layer.borderColor = UIColor.gray.cgColor
-        contentView.layer.cornerRadius = 8
+        contentView.backgroundColor = .tertiarySystemBackground
+        addSubViews()
+        setUpLayer()
+        setUpConstraints()
+    }
+    
+    private func addSubViews() {
         contentView.addSubview(nameLb)
         contentView.addSubview(SeasonLb)
         contentView.addSubview(airDateLb)
-        setUPContentView()
-        setUpConstraints()
-        
-
+   
     }
-    private func setUPContentView() {
+    
+    private func setUpLayer() {
+        contentView.layer.borderWidth = 2
+        contentView.layer.cornerRadius = 8
         contentView.layer.shadowColor = UIColor.label.cgColor
         contentView.layer.shadowOffset = CGSize(width: -4, height: 4)
         contentView.layer.shadowOpacity = 0.4
-        
     }
+    
     required init?(coder: NSCoder) {
         fatalError("Unsupported")
     }
@@ -98,5 +92,19 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
         airDateLb.text = nil
 
     }
+    
+    public func configure(with viewModel: RMCharacterEpisodeCollectionViewCellViewModel) {
+        viewModel.registerForData { [weak self] date in
+            self?.nameLb.text = date.name
+            self?.SeasonLb.text = "Episode "+date.episode
+            self?.airDateLb.text = "Aired on "+date.air_date
+            
+           }
+        viewModel.fetchEpisode()
+        contentView.layer.borderColor = viewModel.borderColor.cgColor
+
+        
+    }
+    
 
 }

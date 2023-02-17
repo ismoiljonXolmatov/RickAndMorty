@@ -50,8 +50,8 @@ final class RMCharacterPhotoCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .tertiarySystemBackground
         contentView.layer.cornerRadius = 8
         setUpConstraints()
-        
     }
+    
     required init?(coder: NSCoder) {
         fatalError("Unsupported")
     }
