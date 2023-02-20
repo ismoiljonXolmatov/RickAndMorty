@@ -9,13 +9,27 @@ import UIKit
 /// configurable controllr to search
 final class RMSearchViewController: UIViewController {
 
+    /// Config for search section 
     struct Config {
         enum `Type` {
-            case character
-            case episode
-            case location
+            case character // naame | status | gender
+            case episode // name
+            case location // name // type
+            
+            var title :String {
+                switch self {
+                case .location:
+                    return "Search location"
+                case .episode:
+                    return "Search episode"
+                case .character:
+                    return "Search character  "
+        }
+            }
         }
         let type: `Type`
+        
+        
     }
     
     private let config: Config
@@ -30,8 +44,8 @@ final class RMSearchViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Search"
-        view.backgroundColor = .systemIndigo
+        title = config.type.title
+        view.backgroundColor = .systemBackground
 
        }
 }

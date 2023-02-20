@@ -13,9 +13,7 @@ struct RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
     let characterStatus: RMCharacterStatus
     let characterImageURL: URL?
     
-    
-    
-    
+
     // MARK: Init
     init(characterName: String, characterStatusText: RMCharacterStatus, characterImageURL: URL?) {
         self.characterName = characterName
@@ -32,9 +30,8 @@ struct RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
             return
         }
         RMImageLoader.shared.downloadImage(url, completion: completion)
-        
 }
-    
+
     // MARK: - Hashable
     static func == (lhs: RMCharacterCollectionViewCellViewModel, rhs: RMCharacterCollectionViewCellViewModel) -> Bool {
         return lhs.hashValue == rhs.hashValue

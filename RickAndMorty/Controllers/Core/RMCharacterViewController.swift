@@ -31,7 +31,7 @@ final class RMCharacterViewController: UIViewController, RMCharacterListViewDele
 
         
     }
-    
+
     private func setUpView() {
         view.addSubview(characterListView)
         NSLayoutConstraint.activate([

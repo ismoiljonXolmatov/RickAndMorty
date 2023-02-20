@@ -19,8 +19,8 @@ final class RMTabBarController: UITabBarController {
     private func setTabs() {
         
         self.tabBar.tintColor = UIColor.label
-        self.tabBar.barTintColor = UIColor.label
-        self.tabBar.isTranslucent = false
+//        self.tabBar.barTintColor = UIColor.label
+//        self.tabBar.isTranslucent = false
 
         let charactersVC = RMCharacterViewController()
         let locationVC = RMLocationViewController()

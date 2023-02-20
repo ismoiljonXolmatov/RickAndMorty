@@ -8,28 +8,32 @@
 import UIKit
 
 ///Controller to show and search Locations
-final class RMLocationViewController: UIViewController {
+final class RMLocationViewController: UIViewController, RMLocationViewViewModelDelegate {
     
-    private let premiryView = RMLocationView()
+    
+    private let primaryView = RMLocationView()
+    
     
     private let viewModel = RMLocationViewViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(premiryView)
+        view.addSubview(primaryView)
         view.backgroundColor = .systemBackground
         title = "Locations"
         addSearchButton()
         addConstraints()
+        viewModel.delegate = self
+        viewModel.fetchLoactions()
         
     }
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            premiryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            premiryView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            premiryView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            premiryView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+            primaryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            primaryView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            primaryView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            primaryView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
     }
     
@@ -46,6 +50,8 @@ final class RMLocationViewController: UIViewController {
     }
     
     
-
+    func didFatchInitialLocations() {
+        primaryView.configure(with: viewModel)
+    }
  
 }
