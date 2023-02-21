@@ -29,7 +29,6 @@ final class RMSettingsViewController: UIViewController {
                 viewModel: RMSettingsViewViewModel(
                     cellViewModels: RMSettingsOption.allCases.compactMap({
                         return RMSettingCellViewModel(type: $0) { [weak self] option in
-                            print(option.displaytitle)
                             self?.handleTap(option: option)
                         }
         }

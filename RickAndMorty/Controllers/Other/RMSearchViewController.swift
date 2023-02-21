@@ -9,7 +9,7 @@ import UIKit
 /// configurable controllr to search
 final class RMSearchViewController: UIViewController {
 
-    /// Config for search section 
+    /// Config for search section
     struct Config {
         enum `Type` {
             case character // naame | status | gender
@@ -23,19 +23,22 @@ final class RMSearchViewController: UIViewController {
                 case .episode:
                     return "Search episode"
                 case .character:
-                    return "Search character  "
-        }
+                    return "Search character"
+               }
             }
         }
+        
         let type: `Type`
-        
-        
     }
+    private let viewModel: RMSearchViewViewModel
+   private let searchView: RMSearchView
     
-    private let config: Config
     
     init(config: Config) {
-        self.config = config
+        let viewModel = RMSearchViewViewModel(config: config)
+        self.viewModel = viewModel
+    
+        self.searchView = RMSearchView(frame: .zero, viewModel: viewModel)
         super.init(nibName: nil, bundle: nil)
         
     }
@@ -44,8 +47,41 @@ final class RMSearchViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = config.type.title
+        title = viewModel.config.type.title
         view.backgroundColor = .systemBackground
-
+        view.addSubview(searchView)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(didTapExacuteSearch))
+        addConstraints()
+        
+        searchView.delegate = self
        }
+    
+    
+    
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        searchView.presentKeyboard()
+
+    }
+     
+    @objc private func didTapExacuteSearch() {
+//        viewModel.exacuteSerch
+    }
+    
+    private func addConstraints() {
+        NSLayoutConstraint.activate([
+            searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            searchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+    }
+}
+
+extension RMSearchViewController: RMSearchViewdelegate {
+    func rmSearchView(_ searchView: RMSearchView, didSelectOption option: RMSearchInputViewViewModel.DynamicOption) {
+        print("Should present option pioker")
+    }
 }

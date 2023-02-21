@@ -203,12 +203,12 @@
 			path = RMSettingsViewViewModels;
 			sourceTree = "<group>";
 		};
-		180DF524299E1F07005FACCD /* SviftUI */ = {
+		180DF524299E1F07005FACCD /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
 				180DF527299E1FBA005FACCD /* RMSettingsView.swift */,
 			);
-			path = SviftUI;
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		181F4D1C298792EC00285A08 /* DataTypes */ = {
@@ -387,7 +387,7 @@
 			children = (
 				18545F0B29A333A400411EF9 /* RMSearchView */,
 				18545ECB299F827000411EF9 /* RMLocationView */,
-				180DF524299E1F07005FACCD /* SviftUI */,
+				180DF524299E1F07005FACCD /* SwiftUI */,
 				180DF517299DF87C005FACCD /* EpisodeCells */,
 				180DF50929974AFA005FACCD /* Episode */,
 				182D73C0299370A000FCC466 /* Other ReusebleCell */,
