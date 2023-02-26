@@ -13,7 +13,7 @@ struct RMLocationTableViewCellViewModel: Hashable, Equatable {
     let location: RMLocation
     
     init (location: RMLocation) {
-        self.init(location: location)
+        self.location = location
     }
     
     public var name: String {

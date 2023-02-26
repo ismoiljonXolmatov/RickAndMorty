@@ -42,7 +42,7 @@ protocol RMLocationViewViewModelDelegate: AnyObject {
                 DispatchQueue.main.async {
                     self?.delegate?.didFatchInitialLocations()
                 }
-            case .failure(let error):
+            case .failure:
                 break
             }
         }

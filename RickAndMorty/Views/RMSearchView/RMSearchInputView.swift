@@ -30,6 +30,8 @@ protocol RMSearchInputViewDelegate: AnyObject {
          }
      }
      
+     private var stackView: UIStackView?
+     
      override init(frame: CGRect) {
          super.init(frame: frame)
          translatesAutoresizingMaskIntoConstraints = false
@@ -69,6 +71,7 @@ protocol RMSearchInputViewDelegate: AnyObject {
      }
      private func creaOptionSelectionViews(options: [RMSearchInputViewViewModel.DynamicOption]) {
        let stackView = createStackViewOptions()
+         self.stackView = stackView
          for x in 0..<options.count {
              let option = options[x]
              let button = creatButton(with: option, tag: x)
@@ -101,7 +104,6 @@ protocol RMSearchInputViewDelegate: AnyObject {
          let selected = options[tag]
          delegate?.rmSearchInputView(self, didSelectOption: selected)
          
-         print("Did Tap \(selected.rawValue)")
      }
      
      
@@ -112,6 +114,23 @@ protocol RMSearchInputViewDelegate: AnyObject {
      }
      public func presentKeyboard() {
          searchBar.becomeFirstResponder()
+     }
+     
+     public func update(option: RMSearchInputViewViewModel.DynamicOption, value: String) {
+         // Update option
+         guard let buttons = stackView?.arrangedSubviews as? [UIButton],
+               let alloptions = viewModel?.options,
+               let index = alloptions.firstIndex(of: option) else {
+             return
+         }
+         let button: UIButton = buttons[index]
+         button.setAttributedTitle(
+            NSAttributedString(
+                string: value.uppercased(),
+                attributes: [
+            .font: UIFont.systemFont(ofSize: 18, weight: .medium),
+            .foregroundColor: UIColor.systemMint
+         ]),  for: .normal)
      }
      
 
