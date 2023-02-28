@@ -17,56 +17,95 @@ final class RMSearchViewViewModel {
 
     private var optionMapUpdatedBlock: (((RMSearchInputViewViewModel.DynamicOption, String)) -> Void)?
     
-    private var searchREsultHandler: (()-> Void)?
+    private var searchResultHandler: ((RMSearchResultViewViewModel)-> Void)?
+    
+    
 
     // MARK:  - Init
     init(config: RMSearchViewController.Config) {
         self.config = config
     }
-    
+   
     // MARK:  - Public
     
-    public func registerSearchResultHandler(_ block: @escaping () -> Void) {
-        self.searchREsultHandler = block
+    public func registerSearchResultHandler(_ block: @escaping (RMSearchResultViewViewModel) -> Void) {
+        self.searchResultHandler = block
     }
+    
     
     public func exacuteSerch() {
-        //Test search text
-        searchText = "Rick"
-
+        print("SearchText is : \(searchText)")
+        
         // build argument
         var  queryParams: [URLQueryItem] = [
-            URLQueryItem(name: "name", value: searchText)
-           ]
+            URLQueryItem(name: "name", value: searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        ]
         // Add Options
-          queryParams.append(contentsOf: optionMap.enumerated().compactMap({_, element in
-              let key: RMSearchInputViewViewModel.DynamicOption = element.key
-              let value: String = element.value
-              return URLQueryItem(name: key.queryArgument, value: value)
-          }))
-                               
+        queryParams.append(contentsOf: optionMap.enumerated().compactMap({_, element in
+            let key: RMSearchInputViewViewModel.DynamicOption = element.key
+            let value: String = element.value
+            return URLQueryItem(name: key.queryArgument, value: value)
+        }))
+        
         let request = RMRequest(endpoint: config.type.endpoint, queryParametrs: queryParams)
-        
-        print(request.url?.absoluteString)
-        
-        RMService.shared.exacute(request, expecting: RMGetAllCharactersResponse.self) { result in
+        switch config.type.endpoint {
+        case .character:
+            makeResultAPICall(RMGetAllCharactersResponse.self, request: request)
+        case .episode:
+            makeResultAPICall(RMGetAllEpsiodesResponse.self, request: request)
+        case .location:
+            makeResultAPICall(RMGetallLocationResponse.self, request: request)
+        }
+    }
+              
+            private  func makeResultAPICall<T: Codable>( _ type: T.Type, request: RMRequest) {
+            RMService.shared.exacute(request, expecting: type) { [weak self] result  in
+            // verify result no result , error
             switch result {
             case .success(let model):
-                print("Search results found \(model.results.count)")
+                self?.prossesSearchResults(model: model)
             case .failure:
-                break
+                print("failed to get response")
+                break 
             }
         }
-        
-        // send API Call
-        
-        // Notify view of results, no resluts, or error
-    }
-    public func set(query text: String) {
-        self.searchText = text
-        
     }
     
+    private func prossesSearchResults(model: Codable ) {
+        var resultsVM: RMSearchResultViewViewModel?
+        if let characterResults = model as? RMGetAllCharactersResponse {
+            resultsVM = .characters(characterResults.results.compactMap({
+                RMCharacterCollectionViewCellViewModel(
+                    characterName: $0.name,
+                    characterStatusText: $0.status,
+                    characterImageURL: URL(string: $0.image))
+            }))
+        }
+        
+        else if let episodeResults = model as? RMGetAllEpsiodesResponse {
+            resultsVM = .episode(episodeResults.results.compactMap({
+                RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: $0.url))
+            }))
+        }
+        
+        else if let locationResults = model as? RMGetallLocationResponse {
+            resultsVM = .locations(locationResults.results.compactMap({
+                RMLocationTableViewCellViewModel(location: $0)
+            }))
+  
+        }
+        if let results = resultsVM {
+            self.searchResultHandler?(results)
+        } else {
+            // fall back
+        }
+    }
+    
+    // MARK: - Publics
+    public func set(query text: String) {
+        self.searchText = text
+     
+    }
     
     public func set(value: String, for option: RMSearchInputViewViewModel.DynamicOption) {
         optionMap[option] = value
@@ -78,3 +117,4 @@ final class RMSearchViewViewModel {
         self.optionMapUpdatedBlock = block
     }
 }
+

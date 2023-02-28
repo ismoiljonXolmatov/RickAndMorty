@@ -9,8 +9,11 @@ import UIKit
 
 protocol RMSearchInputViewDelegate: AnyObject {
     func rmSearchInputView(_ inputView: RMSearchInputView, didSelectOption option: RMSearchInputViewViewModel.DynamicOption)
+    func rmSearchInputView(_ inputView: RMSearchInputView, didChangeSearchText text: String)
+    func rmSearchInputViewDidTapSearchKeyboardButton(_ inputView: RMSearchInputView)
 }
- final class RMSearchInputView: UIView {
+
+  final class RMSearchInputView: UIView {
      
      weak var delegate: RMSearchInputViewDelegate?
      
@@ -37,6 +40,7 @@ protocol RMSearchInputViewDelegate: AnyObject {
          translatesAutoresizingMaskIntoConstraints = false
          addSubview(searchBar)
          addConstraint()
+         searchBar.delegate = self
      }
           
      required init?(coder: NSCoder) {
@@ -132,7 +136,21 @@ protocol RMSearchInputViewDelegate: AnyObject {
             .foregroundColor: UIColor.systemMint
          ]),  for: .normal)
      }
-     
-
  
+}
+extension RMSearchInputView: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+         
+        delegate?.rmSearchInputView(self, didChangeSearchText: searchText)
+        
+        //Notify delegate of text change
+        
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // NOtify that search button was tapped
+        delegate?.rmSearchInputViewDidTapSearchKeyboardButton(self)
+        searchBar.resignFirstResponder()
+    }
+
 }
