@@ -19,6 +19,8 @@ final class RMSearchViewViewModel {
     
     private var searchResultHandler: ((RMSearchResultViewViewModel)-> Void)?
     
+    private var noResultsHandler: (()-> Void)?
+
     
 
     // MARK:  - Init
@@ -32,6 +34,10 @@ final class RMSearchViewViewModel {
         self.searchResultHandler = block
     }
     
+    public func registerNoResultHandler(_ block: @escaping () -> Void) {
+        self.noResultsHandler = block
+    }
+   
     
     public func exacuteSerch() {
         print("SearchText is : \(searchText)")
@@ -65,7 +71,7 @@ final class RMSearchViewViewModel {
             case .success(let model):
                 self?.prossesSearchResults(model: model)
             case .failure:
-                print("failed to get response")
+                self?.handleNoResult()
                 break 
             }
         }
@@ -97,8 +103,14 @@ final class RMSearchViewViewModel {
         if let results = resultsVM {
             self.searchResultHandler?(results)
         } else {
-            // fall back
+            // fall back error
+            handleNoResult()
         }
+    }
+    
+    private func handleNoResult() {
+        print("No result")
+        noResultsHandler?()
     }
     
     // MARK: - Publics

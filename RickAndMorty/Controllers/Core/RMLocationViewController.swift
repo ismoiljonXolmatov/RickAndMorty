@@ -49,7 +49,6 @@ final class RMLocationViewController: UIViewController, RMLocationViewViewModelD
         
     }
     
-    
     func didFatchInitialLocations() {
         primaryView.configure(with: viewModel)
     }

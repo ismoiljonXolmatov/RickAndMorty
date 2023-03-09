@@ -21,7 +21,7 @@ protocol RMLocationViewViewModelDelegate: AnyObject {
          didSet {
              for location in locations {
                  let cellViewModel = RMLocationTableViewCellViewModel(location: location )
-                 if !cellViewModels.contains(cellViewModel){
+                 if !cellViewModels.contains(cellViewModel) {
                      cellViewModels.append(cellViewModel)
                  }
                  

@@ -113,9 +113,7 @@ final class RMCharacterInfoCollectionViewCellViewModel {
              case .episodeCount:
                 return "Episode count in".uppercased()
             }
-            
         }
-
     }
     
     init(type: `Type` ,value: String) {

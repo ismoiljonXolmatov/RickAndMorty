@@ -10,41 +10,41 @@ import UIKit
 class RMLocationView: UIView {
     
     private var viewModel: RMLocationViewViewModel?
-//    {
-//        didSet {
-//            spinner.stopAnimating()
-//            tableView.isHidden = false
-//            tableView.reloadData()
-//            UIView.animate(withDuration: 0.3) {
-//                self.tableView.alpha = 1
-//            }
-//        }
-//    }
-//
+    {
+        didSet {
+            spinner.stopAnimating()
+            tableView.isHidden = false
+            tableView.reloadData()
+            UIView.animate(withDuration: 0.3) {
+                self.tableView.alpha = 1
+            }
+        }
+    }
+
     private let tableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.alpha = 1
-        table.isHidden = false
+        table.alpha = 0
+        table.isHidden = true
         table.register(RMLocationTableViewCell.self, forCellReuseIdentifier: RMLocationTableViewCell.identifier)
           return table
     }()
     
-//    private let spinner: UIActivityIndicatorView = {
-//        let spinner = UIActivityIndicatorView()
-//        spinner.translatesAutoresizingMaskIntoConstraints = false
-//        spinner.hidesWhenStopped = true
-//        return spinner
-//    }()
-//
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.hidesWhenStopped = true
+        return spinner
+    }()
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .systemBackground
         addSubview(tableView)
-//        addSubview(spinner)
-//        spinner.startAnimating()
+        addSubview(spinner)
+        spinner.startAnimating()
         configureConsraints()
         configureTable()
     }
@@ -62,10 +62,10 @@ class RMLocationView: UIView {
     private func configureConsraints() {
         NSLayoutConstraint.activate([
             
-//            spinner.heightAnchor.constraint(equalToConstant: 100),
-//            spinner.widthAnchor.constraint(equalToConstant: 100),
-//            spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
-//            spinner.centerYAnchor.constraint(equalTo: centerYAnchor),
+            spinner.heightAnchor.constraint(equalToConstant: 100),
+            spinner.widthAnchor.constraint(equalToConstant: 100),
+            spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             tableView.topAnchor.constraint(equalTo: topAnchor),
             tableView.leftAnchor.constraint(equalTo: leftAnchor),
@@ -81,14 +81,17 @@ class RMLocationView: UIView {
 }
 extension RMLocationView: UITableViewDataSource {
     
+ 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.cellViewModels.count ?? 100
+        return viewModel?.cellViewModels.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cellViewModels = viewModel?.cellViewModels else {
             return UITableViewCell()
         }
-       guard let cell = tableView.dequeueReusableCell(withIdentifier: RMLocationTableViewCell.identifier, for: indexPath) as? RMLocationTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: RMLocationTableViewCell.identifier,
+            for: indexPath) as? RMLocationTableViewCell else {
             fatalError("Unsupported")
         }
         let cellViewModel = cellViewModels[indexPath.row]
@@ -99,6 +102,7 @@ extension RMLocationView: UITableViewDataSource {
 }
 
 extension RMLocationView: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }

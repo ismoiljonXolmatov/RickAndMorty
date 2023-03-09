@@ -17,21 +17,64 @@ final class RMEpisodeDetailViewViewModel  {
      
      public weak var delegate: RMEpisodeDetailViewModelDelegate?
      
-     private var dataTuple: (RMEpisode, [RMCharacter])? {
-         didSet {
-             delegate?.didFetchepisodeDetails()
-         }
-     }
+    private var dataTuple: (
+        episode: RMEpisode,
+        characters: [RMCharacter])? {
+            didSet {
+                createCellViewModels()
+                
+                delegate?.didFetchepisodeDetails()
+            }
+        }
+    
     enum sectionType {
         case information(viewModels: [RMEpisodeInfoCollectionViewCellViewModel])
-        case characters(viewModel: [RMCharacterInfoCollectionViewCellViewModel])
+        case characters(viewModel: [RMCharacterCollectionViewCellViewModel])
     }
-    public private(set) var section: [sectionType] = []
+    public private(set) var cellViewModels: [sectionType] = []
     
      // MARK: - Init
     init(endPointURL: URL?) {
         self.endPointURL = endPointURL
         
+    }
+    
+    public func character(at index: Int) -> RMCharacter? {
+        guard let dataTuple = dataTuple else {
+            return nil
+            
+        }
+        return dataTuple.characters[index ]
+    }
+    
+    
+    private  func  createCellViewModels() {
+        guard let dataTuple = dataTuple else {
+            return
+        }
+        
+        let episode = dataTuple.episode
+        let characters = dataTuple.characters
+        
+        var createdString = episode.created
+        if let date = RMCharacterInfoCollectionViewCellViewModel.dateFormatter.date(from: episode.created) {
+            createdString = RMCharacterInfoCollectionViewCellViewModel.shortDateFormatter.string(from: date)
+        }
+        
+        cellViewModels  = [
+            .information(viewModels: [
+                .init(title: "Episode Name", value: episode.name),
+                .init(title: "Air Date", value: episode.air_date),
+                .init(title: "Episode", value: episode.episode),
+                .init(title: "Created", value: createdString),
+            ]),
+            .characters(viewModel: characters.compactMap({ character in
+                return RMCharacterCollectionViewCellViewModel.init(
+                    characterName: character.name,
+                    characterStatusText: character.status,
+                    characterImageURL: URL(string: character.image))
+             }))
+        ]
     }
     /// Fetch backing episode model
     public func fetchEpisodeData() {
@@ -72,11 +115,14 @@ final class RMEpisodeDetailViewViewModel  {
             group.leave()
         }
         group.notify(queue: .main) {
-            self.dataTuple = (episode, characters)
+            self.dataTuple = (
+                episode: episode,
+                characters: characters)
         }
     }
      
      
 }
+
 
 

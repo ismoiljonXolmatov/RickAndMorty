@@ -27,6 +27,9 @@ class RMSearchView: UIView {
     // No results view
      private let noRelustView = RMNoSearchReslutsView()
     
+    // searchresultsview
+    private let searchResultsView = RMSearchresultsView()
+    
     
     // REsults CollectionView
     
@@ -38,36 +41,59 @@ class RMSearchView: UIView {
          backgroundColor = .systemBackground
           addSubview(noRelustView)
           addSubview(rMSearchInputView)
+          addSubview(searchResultsView)
           addConstraints()
           rMSearchInputView.configure(with: RMSearchInputViewViewModel(type: viewModel.config.type))
           rMSearchInputView.delegate = self
-          viewModel.registerOptionChangeBlock { tuple in
-              self.rMSearchInputView.update(option: tuple.0, value: tuple.1)
-          }
-          viewModel.registerSearchResultHandler { results in
-              print(results)
-               
-          }
-        
+          setUpHandlers(viewModel: viewModel)
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    private func setUpHandlers(viewModel: RMSearchViewViewModel) {
+        
+        viewModel.registerOptionChangeBlock { tuple in
+            self.rMSearchInputView.update(option: tuple.0, value: tuple.1)
+        }
+        viewModel.registerSearchResultHandler { [weak self] results in
+            
+            DispatchQueue.main.async {
+                self?.searchResultsView.configure(with: results)
+                self?.searchResultsView.isHidden = false
+                self?.noRelustView.isHidden = true
+            }
+        }
+        
+        viewModel.registerNoResultHandler { [weak self] in
+            DispatchQueue.main.async {
+                self?.searchResultsView.isHidden = true
+                self?.noRelustView.isHidden = false
+            }
+        }
+    
+    }
+    
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            
-            // input View
+            // no reslut
             noRelustView.centerYAnchor.constraint(equalTo: centerYAnchor),
             noRelustView.centerXAnchor.constraint(equalTo: centerXAnchor),
             noRelustView.heightAnchor.constraint(equalToConstant: 150),
             noRelustView.widthAnchor.constraint(equalToConstant: 300),
   
-            // no reslut
+            // input View
             rMSearchInputView.topAnchor.constraint(equalTo: topAnchor),
             rMSearchInputView.leadingAnchor.constraint(equalTo: leadingAnchor),
             rMSearchInputView.trailingAnchor.constraint(equalTo: trailingAnchor),
             rMSearchInputView.heightAnchor.constraint(equalToConstant: viewModel.config.type == .episode ? 55 :150),
+            
+            //Results
+            searchResultsView.topAnchor.constraint(equalTo: rMSearchInputView.bottomAnchor),
+            searchResultsView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            searchResultsView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            searchResultsView.bottomAnchor.constraint(equalTo: bottomAnchor)
     
         ])
     }

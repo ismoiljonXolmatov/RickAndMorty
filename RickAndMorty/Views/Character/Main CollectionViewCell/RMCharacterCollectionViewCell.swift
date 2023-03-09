@@ -39,7 +39,7 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(nameLabel)
         contentView.addSubview(statusLabel)
         setUpShadow()
-         addConstraints()
+        addConstraints()
         }
     
     private func setUpShadow() {
@@ -48,6 +48,7 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
         contentView.layer.shadowOpacity = 0.4
         contentView.backgroundColor = .secondarySystemBackground
         contentView.layer.cornerRadius = 8
+        
 
     }
     

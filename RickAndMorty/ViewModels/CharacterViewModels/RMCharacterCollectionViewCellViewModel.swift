@@ -12,7 +12,7 @@ struct RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
     let characterName: String
     let characterStatus: RMCharacterStatus
     let characterImageURL: URL?
-    
+     
 
     // MARK: Init
     init(characterName: String, characterStatusText: RMCharacterStatus, characterImageURL: URL?) {
@@ -21,7 +21,7 @@ struct RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
         self.characterImageURL = characterImageURL
     }
     public var characterStatusText: String {
-       return "Status: \(characterStatus.text )"
+       return "Status: \(characterStatus.text)"
     }
     public func fetchImage(completion: @escaping ((Result<Data, Error>) -> Void)) {
         // MARK: Abstract to Image Manager

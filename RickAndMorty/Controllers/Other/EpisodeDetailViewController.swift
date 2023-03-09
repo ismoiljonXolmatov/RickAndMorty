@@ -29,6 +29,7 @@ class EpisodeDetailViewController: UIViewController, RMEpisodeDetailViewModelDel
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(detailView)
+        detailView.delegate = self
         view.backgroundColor = .systemBackground
         title = "Episode"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapShare))
@@ -56,5 +57,14 @@ class EpisodeDetailViewController: UIViewController, RMEpisodeDetailViewModelDel
         detailView.configure(with: viewModel) 
     }
 
-
+}
+extension EpisodeDetailViewController: RMEpisodeDetailViewDelegate {
+    
+    func rmEpisodeDetailView(_ detailView: RMEpisodeDetailView, didselect character: RMCharacter) {
+         
+        let vc = RMCharacterDetailViewController(viewModel: .init(character: character))
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.title = character.name
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
