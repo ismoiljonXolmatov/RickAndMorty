@@ -17,13 +17,13 @@ struct RMLocationTableViewCellViewModel: Hashable, Equatable {
     }
     
     public var name: String {
-        return location.name
+        return "Name: "+location.name
     }
     public var type: String? {
-       return location.type
+       return "Type: "+location.type
     }
     public var dimention: String {
-        return location.name
+        return "From: "+location.name
     }
     static func == (lhs: RMLocationTableViewCellViewModel, rhs: RMLocationTableViewCellViewModel) -> Bool {
         return lhs.location.id == rhs.location.id

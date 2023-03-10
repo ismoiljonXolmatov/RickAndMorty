@@ -1,21 +1,23 @@
 //
-//  RMEpisodeDetailView.swift
+//  RMLocationDetailView.swift
 //  RickAndMorty
 //
-//  Created by Apple on 20.07.1444 (AH).
+//  Created by Apple on 17.08.1444 (AH).
 //
 
 import UIKit
 
-protocol RMEpisodeDetailViewDelegate: AnyObject {
-    func rmEpisodeDetailView(_ detailView: RMEpisodeDetailView, didselect character: RMCharacter)
+
+protocol RMLocationDetailViewDelegate: AnyObject {
+    func rmEpisodeDetailView(_ detailView: RMLocationDetailView, didselect character: RMCharacter)
+        
 }
 
-final class RMEpisodeDetailView: UIView {
+final class RMLocationDetailView: UIView {
 
-    public weak var delegate: RMEpisodeDetailViewDelegate?
+    public weak var delegate: RMLocationDetailViewDelegate?
     
-    private var viewModel: RMEpisodeDetailViewViewModel?
+    private var viewModel: RMLocationDetailViewViewModel?
     {
         didSet {
             spinner.stopAnimating()
@@ -90,12 +92,12 @@ final class RMEpisodeDetailView: UIView {
         return collectionView
     }
     
-    public func configure(with viewModel: RMEpisodeDetailViewViewModel) {
+    public func configure(with viewModel: RMLocationDetailViewViewModel) {
         self.viewModel  = viewModel
     }
 }
 
-extension RMEpisodeDetailView {
+extension RMLocationDetailView {
     
     func layout(for section: Int) -> NSCollectionLayoutSection {
         guard let sections = viewModel?.cellViewModels else {
@@ -152,7 +154,7 @@ extension RMEpisodeDetailView {
 
 
 
-extension RMEpisodeDetailView: UICollectionViewDataSource, UICollectionViewDelegate {
+extension RMLocationDetailView: UICollectionViewDataSource, UICollectionViewDelegate {
     
         func numberOfSections(in collectionView: UICollectionView) -> Int {
             return viewModel?.cellViewModels.count ?? 0
@@ -220,3 +222,5 @@ extension RMEpisodeDetailView: UICollectionViewDataSource, UICollectionViewDeleg
         }
     
 }
+
+ 

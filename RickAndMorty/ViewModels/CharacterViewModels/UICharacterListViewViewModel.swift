@@ -134,7 +134,7 @@ extension UICharacterListViewViewModel: UICollectionViewDataSource, UICollection
         guard kind == UICollectionView.elementKindSectionFooter,
               let footer = collectionView.dequeueReusableSupplementaryView(
               ofKind: kind,
-              withReuseIdentifier: RMFootLoadCollectionReusableView.indentifier,
+              withReuseIdentifier: RMFootLoadCollectionReusableView.identifier,
               for: indexPath) as? RMFootLoadCollectionReusableView else {
             fatalError("UnSupported")
         }

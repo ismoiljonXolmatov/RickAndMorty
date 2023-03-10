@@ -140,7 +140,7 @@ extension RMEpisodeListViewViewModel: UICollectionViewDataSource, UICollectionVi
         guard kind == UICollectionView.elementKindSectionFooter,
               let footer = collectionView.dequeueReusableSupplementaryView(
               ofKind: kind,
-              withReuseIdentifier: RMFootLoadCollectionReusableView.indentifier,
+              withReuseIdentifier: RMFootLoadCollectionReusableView.identifier,
               for: indexPath) as? RMFootLoadCollectionReusableView else {
             fatalError("UnSupported")
         }
@@ -161,7 +161,7 @@ extension RMEpisodeListViewViewModel: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let bounds = UIScreen.main.bounds
         let width = (bounds.width - 20)
-        return CGSize(width: width, height: 120 )
+        return CGSize(width: width, height: 120)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)

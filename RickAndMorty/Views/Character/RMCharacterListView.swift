@@ -36,7 +36,7 @@ protocol RMCharacterListViewDelegate: AnyObject {
                                 forCellWithReuseIdentifier:  RMCharacterCollectionViewCell.identifier)
         collectionView.register(RMFootLoadCollectionReusableView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                                withReuseIdentifier: RMFootLoadCollectionReusableView.indentifier)
+                                withReuseIdentifier: RMFootLoadCollectionReusableView.identifier)
                collectionView.isHidden = true
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.alpha = 0

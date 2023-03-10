@@ -1,22 +1,22 @@
 //
-//  EpisodeDetailViewController.swift
+//  RMLoctionDetailViewViewController.swift
 //  RickAndMorty
 //
-//  Created by Apple on 20.07.1444 (AH).
+//  Created by Apple on 17.08.1444 (AH).
 //
 
 import UIKit
-/// VC for to show episode single episode
-class EpisodeDetailViewController: UIViewController, RMEpisodeDetailViewModelDelegate {
-    
-    
-    private let viewModel: RMEpisodeDetailViewViewModel
 
-    private let detailView = RMEpisodeDetailView()
+class RMLocationDetailViewController: UIViewController, RMLocationDetailViewModelDelegate, RMLocationDetailViewDelegate {
+    
+     private let viewModel: RMLocationDetailViewViewModel
+
+    private let detailView = RMLocationDetailView()
     
     // MARK: - Init
-    init(url: URL?) {
-        self.viewModel = RMEpisodeDetailViewViewModel(endPointURL: url)
+    init(location: RMLocation) {
+        let url = URL(string: location.url)
+        self.viewModel = RMLocationDetailViewViewModel(endPointURL: url)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -31,12 +31,12 @@ class EpisodeDetailViewController: UIViewController, RMEpisodeDetailViewModelDel
         view.addSubview(detailView)
         detailView.delegate = self
         view.backgroundColor = .systemBackground
-        title = "Episode"
+        title = "Location"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapShare))
         viewModel.delegate = self
-        viewModel.fetchEpisodeData()
+        viewModel.fetchLocationData()
         configureConstraints()
-        
+
     }
     @objc
     private func didTapShare() {
@@ -53,19 +53,24 @@ class EpisodeDetailViewController: UIViewController, RMEpisodeDetailViewModelDel
 
 
         }
-    func didFetchepisodeDetails() {
-        detailView.configure(with: viewModel) 
-    }
-
-}
-extension EpisodeDetailViewController: RMEpisodeDetailViewDelegate {
     
-    func rmEpisodeDetailView(_ detailView: RMEpisodeDetailView, didselect character: RMCharacter) {
-         
+    func didFetchLocationDetails() {
+        detailView.configure(with: viewModel)
+    }
+    
+     
+    func rmEpisodeDetailView(_ detailView: RMLocationDetailView, didselect character: RMCharacter) {
         let vc = RMCharacterDetailViewController(viewModel: .init(character: character))
-        vc.navigationItem.largeTitleDisplayMode = .never
         vc.title = character.name
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
+        vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    
+    
+   
+    
+
 }
+

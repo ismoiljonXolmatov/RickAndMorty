@@ -28,6 +28,13 @@ protocol RMLocationViewViewModelDelegate: AnyObject {
              }
          }
      }
+     
+     public func location(at index: Int) -> RMLocation? {
+         guard index < locations.count, index >= 0 else {
+             return nil
+         }
+         return self.locations[index]
+     }
     
      public private(set) var cellViewModels: [RMLocationTableViewCellViewModel] = []
      
@@ -50,6 +57,5 @@ protocol RMLocationViewViewModelDelegate: AnyObject {
     private var hasMorreResults: Bool {
         return false
     }
-    
     
 }
