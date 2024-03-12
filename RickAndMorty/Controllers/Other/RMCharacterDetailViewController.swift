@@ -13,7 +13,7 @@ class RMCharacterDetailViewController: UIViewController {
     private let viewModel: RMCharacterDetailViewViewModel
 
     private let detailView: RMCharacterDetailView
-    
+        
     //MARK: - Init
     init(viewModel: RMCharacterDetailViewViewModel) {
         self.viewModel = viewModel

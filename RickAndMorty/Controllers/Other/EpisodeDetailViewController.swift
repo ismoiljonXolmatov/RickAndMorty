@@ -61,7 +61,6 @@ class EpisodeDetailViewController: UIViewController, RMEpisodeDetailViewModelDel
 extension EpisodeDetailViewController: RMEpisodeDetailViewDelegate {
     
     func rmEpisodeDetailView(_ detailView: RMEpisodeDetailView, didselect character: RMCharacter) {
-         
         let vc = RMCharacterDetailViewController(viewModel: .init(character: character))
         vc.navigationItem.largeTitleDisplayMode = .never
         vc.title = character.name

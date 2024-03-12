@@ -185,7 +185,6 @@ extension RMSearchresultsView: UICollectionViewDelegate, UICollectionViewDataSou
         let currentviewModel = collectionViewCellViewModels[indexPath.row]
         let bounds = collectionView.bounds
         if currentviewModel is RMCharacterCollectionViewCellViewModel {
-            // Character cell
             let width = (bounds.width - 30)/2
             return CGSize(width: width, height: width*1.4)
             
